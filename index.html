@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body id="body" class="bg-gray-900 ">
+    <div id="header"></div>
+    <main class="p-6">
+        <a href="#header">
+            <button id="scrolltotopbutton" 
+                class="fixed lg:bottom-6 lg:right-6 bottom-16 right-6 bg-green-500 text-white border-2 border-green-500 px-4 py-3 rounded-full hover:bg-gray-900 hover:text-green-500 transition">
+                <span class="w-4 h-4 inline-block">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-full h-full">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+                    </svg>
+                </span>
+            </button>
+        </a>
+        <div id="hero"></div>
+        <div id="about"></div>
+        <div id="portfolio"></div>
+        <div id="projects"></div>
+        <div id="contact"></div>
+    </main>
+
+
+    <div id="footer"></div>
+
+    <script>
+        fetch("header.html")
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('header').innerHTML = data;
+
+                const btn = document.getElementById("menu-btn");
+                const menu = document.getElementById("mobile-menu");
+                const openMenu = document.getElementById("open-menu");
+
+                menu.classList.add("translate-x-full");
+
+                btn.addEventListener("click", () => {
+                    menu.classList.toggle("translate-x-full");
+                    menu.classList.toggle("translate-x-0");
+
+                });
+                const closeBtn = document.getElementById("close-menu");
+
+                closeBtn.addEventListener("click", () => {
+                    menu.classList.add("translate-x-full");
+                    menu.classList.remove("translate-x-0");
+                });
+            });
+
+        fetch("footer.html")
+            .then(response => response.text())
+            .then(data => document.getElementById("footer").innerHTML = data);
+        
+        fetch("hero.html")
+            .then(response => response.text())
+            .then(data => document.getElementById("hero").innerHTML = data);
+
+        fetch("portfolio.html")
+            .then(response => response.text())
+            .then(data => document.getElementById("portfolio").innerHTML = data);
+
+        fetch("projects.html")
+            .then(response => response.text())
+            .then(data => document.getElementById("projects").innerHTML = data);
+
+        fetch("contact.html")
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById("contact").innerHTML = data;
+                document.getElementById("contactForm").addEventListener("submit", async function (event) {
+                    event.preventDefault();
+
+                    const form = event.target;
+
+                    const formData = new FormData(form);
+
+                    await fetch("https://formsubmit.co/ajax/contact@milanraut.com.np", {
+                        method: "POST",
+                        body: formData
+                    });
+
+                    document.getElementById("name").value = "";
+                    document.getElementById("email").value = "";
+                    document.getElementById("message").value = "";
+
+                    document.getElementById("statusMessage").textContent = "Message sent successfully!";
+
+                    setTimeout(() => {
+                        document.getElementById("statusMessage").textContent = "";
+                    }, 3000);
+                });
+            });
+
+        fetch("about.html")
+            .then(response => response.text())
+            .then(data => document.getElementById("about").innerHTML = data);
+    </script>
+</body>
+</html>
